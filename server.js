@@ -1,6 +1,6 @@
 const app = require("./app");
 const dotevn = require("dotenv");
-const connectingDb = require("../mjCommerce/db/connectedDb");
+const connectingDb = require("./db/connectedDb");
 
 // config
 dotevn.config();
