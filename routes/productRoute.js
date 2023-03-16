@@ -3,7 +3,7 @@ const {
   getAllProducts,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
 } = require("../controllers/productController");
 
 const router = express.Router();
@@ -23,15 +23,9 @@ router.route("/product/create").post(createProduct);
 //  update Product
 // desc
 // route Priviate /admin / user
-// url api/mj/product/:id 
-router.route("/updateProduct/:id").put(updateProduct);
+// url api/mj/product/:id
+// url api/mj/product/:id
 
-
-
-// delete product
-// desc
-// route Priviate /admin / user
-// url api/mj/delete/:id
-router.route("/deleteProduct/:id").delete(deleteProduct);
+router.route("/product/:id").put(updateProduct).delete(deleteProduct);
 
 module.exports = router;
