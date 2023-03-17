@@ -1,4 +1,5 @@
 const productModel = require("../models/ProductModel");
+const ErrorHandler = require("../utilis/errorhandler");
 
 // _________________createProduct_____________
 //Only admin can have access
@@ -35,6 +36,31 @@ exports.getAllProducts = async (req, res) => {
       return res
         .status(404)
         .json({ status: "failed", message: "Product Not found" });
+    }
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ status: "failed", message: "Internal server error" });
+  }
+};
+
+// _____________ Product detail_____________
+
+exports.produtcDetail = async (req, res, next) => {
+  try {
+    let id = req.params.id;
+    const product = await productModel.findById(id);
+    if (!product) {
+      // return  next(new ErrorHandler("Product not found" , 404))
+
+      res.status(404).json({ status: "failed", message: "Product not found" });
+    }
+    if (product) {
+      return res.status(200).json({
+        status: "success",
+        message: "Product fetched successfully",
+        product,
+      });
     }
   } catch (error) {
     return res
