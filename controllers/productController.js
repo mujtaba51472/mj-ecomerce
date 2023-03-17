@@ -22,8 +22,25 @@ exports.createProduct = async (req, res, next) => {
 };
 
 exports.getAllProducts = async (req, res) => {
+  console.log("query", req.query);
+
   try {
-    const product = await productModel.find();
+    // searchng via query if not found return {}
+    const query = req.query.keyword
+      ? { name: { $regex: req.query.keyword, $options: "i" } }
+      : {};
+
+    // if name or category one of them matched
+    // const query = req.query.keyword ? {
+    //   $or: [
+    //     { name: { $regex: req.query.keyword, $options: "i" } },
+    //     { category: { $regex: req.query.keyword, $options: "i" } },
+    //   ]
+    // } : {};
+
+    const product = await productModel.find(query);
+
+    //  product found
     if (product) {
       return res.status(200).json({
         status: "success",
@@ -32,6 +49,7 @@ exports.getAllProducts = async (req, res) => {
       });
     }
 
+    //  product not  found
     if (!product) {
       return res
         .status(404)
