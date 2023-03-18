@@ -1,10 +1,12 @@
 const productModel = require("../models/ProductModel");
+const ApiFeatures = require("../utilis/apiFeatures");
 const ErrorHandler = require("../utilis/errorhandler");
 
 // _________________createProduct_____________
 //Only admin can have access
 
 exports.createProduct = async (req, res, next) => {
+  console.log("hello")
   // create query  for product
   const product = await productModel.create(req.body);
   if (!product) {
@@ -22,23 +24,18 @@ exports.createProduct = async (req, res, next) => {
 };
 
 exports.getAllProducts = async (req, res) => {
-  console.log("query", req.query);
 
   try {
     // searchng via query if not found return {}
-    const query = req.query.keyword
-      ? { name: { $regex: req.query.keyword, $options: "i" } }
-      : {};
+    // const query = req.query.keyword
+    //   ? { name: { $regex: req.query.keyword, $options: "i" } }
+    //   : {};
 
-    // if name or category one of them matched
-    // const query = req.query.keyword ? {
-    //   $or: [
-    //     { name: { $regex: req.query.keyword, $options: "i" } },
-    //     { category: { $regex: req.query.keyword, $options: "i" } },
-    //   ]
-    // } : {};
 
-    const product = await productModel.find(query);
+    // creating object by passing  query and queryString to the class which return method search()
+    const apiFeature = new ApiFeatures(productModel.find(), req.query)
+      .search()
+    let product = await apiFeature.query;
 
     //  product found
     if (product) {
