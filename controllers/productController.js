@@ -34,8 +34,15 @@ exports.getAllProducts = async (req, res) => {
 
     // creating object by passing  query and queryString to the class which return method search()
     const apiFeature = new ApiFeatures(productModel.find(), req.query)
-      .search()
+      .search().filter()
+    const productsCount = await productModel.countDocuments();
+
+    const resultPerPage = 8;
+
     let product = await apiFeature.query;
+    let filteredProductsCount = product.length;
+    apiFeature.pagination(resultPerPage);
+
 
     //  product found
     if (product) {
@@ -43,6 +50,8 @@ exports.getAllProducts = async (req, res) => {
         status: "success",
         message: "Product fetched Successfully",
         product,
+        productsCount,
+        filteredProductsCount
       });
     }
 
