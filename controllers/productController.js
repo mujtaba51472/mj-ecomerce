@@ -1,4 +1,5 @@
 const productModel = require("../models/ProductModel");
+const ApiFeatures = require("../utilis/apiFeatures");
 const ErrorHandler = require("../utilis/errorhandler");
 
 // _________________createProduct_____________
@@ -22,25 +23,23 @@ exports.createProduct = async (req, res, next) => {
 };
 
 exports.getAllProducts = async (req, res) => {
-  console.log("query", req.query);
-
   try {
     // searchng via query if not found return {}
-    const query = req.query.keyword
-      ? { name: { $regex: req.query.keyword, $options: "i" } }
-      : {};
+    // const query = req.query.keyword
+    //   ? { name: { $regex: req.query.keyword, $options: "i" } }
+    //   : {};
 
-    // if name or category one of them matched
-    // const query = req.query.keyword ? {
-    //   $or: [
-    //     { name: { $regex: req.query.keyword, $options: "i" } },
-    //     { category: { $regex: req.query.keyword, $options: "i" } },
-    //   ]
-    // } : {};
+    // creating object by passing  query and queryString to the class which return method search()
+    const apiFeature = new ApiFeatures(productModel.find(), req.query)
+      .search()
+      .filter();
+    const productsCount = await productModel.countDocuments();
 
-    
+    const resultPerPage = 8;
 
-    const product = await productModel.find(query);
+    let product = await apiFeature.query;
+    let filteredProductsCount = product.length;
+    apiFeature.pagination(resultPerPage);
 
     //  product found
     if (product) {
@@ -48,6 +47,8 @@ exports.getAllProducts = async (req, res) => {
         status: "success",
         message: "Product fetched Successfully",
         product,
+        productsCount,
+        filteredProductsCount,
       });
     }
 
@@ -71,9 +72,9 @@ exports.produtcDetail = async (req, res, next) => {
     let id = req.params.id;
     const product = await productModel.findById(id);
     if (!product) {
-      // return  next(new ErrorHandler("Product not found" , 404))
+      return next(new ErrorHandler("Product not found", 404));
 
-      res.status(404).json({ status: "failed", message: "Product not found" });
+      // res.status(404).json({ status: "failed", message: "Product not found" });
     }
     if (product) {
       return res.status(200).json({
