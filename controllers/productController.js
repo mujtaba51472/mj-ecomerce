@@ -54,9 +54,8 @@ exports.getAllProducts = async (req, res) => {
 
     //  product not  found
     if (!product) {
-      return res
-        .status(404)
-        .json({ status: "failed", message: "Product Not found" });
+      return next(new ErrorHandler("Product not found", 404));
+
     }
   } catch (error) {
     return res
