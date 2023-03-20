@@ -38,6 +38,8 @@ exports.getAllProducts = async (req, res) => {
     //   ]
     // } : {};
 
+    
+
     const product = await productModel.find(query);
 
     //  product found
