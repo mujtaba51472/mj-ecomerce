@@ -1,11 +1,23 @@
-# mj-ecomerce
-This is ecommerce website , which is under the constructions, frontend: react js ~~ backend:expreess , db:Mongodb
-
-
-// backend  and frontend
-// npm  i
+**Ecommerce Website**
+Hi! My name is Mujtaba I have created this tutorial to just for learning purpose.
 
 
 
 
-// add db url , PORT in .env
+**Installation**
+*To install the required dependencies for both the backend and frontend, run*:
+`npm i`
+
+**Env Variables**
+*make sure to add all required env variables before starting the project*
+#PORT
+#DB_URL
+#secretKey
+
+
+
+
+
+
+
+
