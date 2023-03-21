@@ -6,12 +6,11 @@ const connectingDb = (url) => {
     .connect(url, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-    //   useCreateIndex: true,
+      //   useCreateIndex: true,
     })
     .then((data) => {
       console.log("Mongodb is connected Successfully");
-    })
-    .catch((err) => console.log(err));
+    });
 };
 
 module.exports = connectingDb;
