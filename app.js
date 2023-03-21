@@ -20,6 +20,7 @@ app.use("/api/mj", product);
 
 // user
 app.use("/api/mj", user);
+
 app.use(errorMiddleWare);
 
 module.exports = app;
