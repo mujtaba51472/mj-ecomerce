@@ -1,6 +1,6 @@
 **Ecommerce Website**
 
-Hi! My name is **Mujtaba** I have created this tutorial to just for learning purpose.
+Hi! My name is **Mujtaba** I have created this project to just for learning purpose.
 
 
 
