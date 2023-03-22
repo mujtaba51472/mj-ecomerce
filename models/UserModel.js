@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
-
+const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -41,19 +41,26 @@ const userSchema = new mongoose.Schema({
     default: "User",
   },
   resetPasswordToken: String,
-  resetPasswordExpire: Date
+  resetPasswordExpire: Date,
 });
-userSchema.pre("save" , async function(next){
-  if(!this.isModefied("password")){
-    next()
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
   }
 
   // password  modified means changed  then if not
-  this.password = await bcrypt.hash(this.password , 10)   // 10 indicates how much stronger password should be
+  this.password = await bcrypt.hash(this.password, 10); // 10 indicates how much stronger password should be
+});
 
-})
-
-
-
+// jwtToken
+userSchema.methods.getJWTToken = function () {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
+};
+// Compare Password
+userSchema.methods.comparePassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
 
 module.exports = mongoose.model("user", userSchema);

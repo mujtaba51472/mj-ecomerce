@@ -44,22 +44,27 @@ const productSchema = mongoose.Schema({
     default: 0,
     type: Number,
   },
-  reviews: [{
-
-    name: {
-      type: String,
-      required: true,
+  reviews: [
+    {
+      name: {
+        type: String,
+        required: true,
+      },
+      rating: {
+        type: String,
+        required: true,
+      },
+      comment: {
+        type: String,
+        required: true,
+      },
     },
-    rating: {
-      type: String,
-      required: true,
-    },
-    comment: {
-      type: String,
-      required: true,
-    },
-}
-],
+  ],
+  user: {       // createed by
+    type: mongoose.Schema.ObjectId,
+    ref: "userModel",
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: new Date(),

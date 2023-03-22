@@ -7,6 +7,9 @@ const catchAsyncErrHandler = require("../middlewares/catchAsyncErrors");
 // _________________createProduct_____________
 //Only admin can have access
 exports.createProduct = catchAsyncErrHandler(async (req, res, next) => {
+
+
+  req.body.user = req.user.id;   // sassigning id of user to the user in the body which will be created as others fields name des etc
   const product = await productModel.create(req.body);
   if (!product) {
     return next(new ErrorHandler("Product not found", 404));
@@ -79,7 +82,6 @@ exports.updateProduct = catchAsyncErrHandler(async (req, res, next) => {
   //  product not found
   if (!product) {
     return next(new ErrorHandler("Product not found", 404));
-
   }
 
   //  product found and updation
