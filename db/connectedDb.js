@@ -9,7 +9,7 @@ const connectingDb = (url) => {
       //   useCreateIndex: true,
     })
     .then((data) => {
-      console.log("Mongodb is connected Successfully");
+      console.log(`Mongodb is connected Successfully with ${data.connection.host}`);
     });
 };
 

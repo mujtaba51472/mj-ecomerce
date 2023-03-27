@@ -77,7 +77,8 @@ exports.produtcDetail = catchAsyncErrHandler(async (req, res, next) => {
 
 exports.updateProduct = catchAsyncErrHandler(async (req, res, next) => {
   const id = req.params.id;
-  const product = await productModel.findById(id);
+  // const product = await productModel.findById(id);
+  const product = await findProduuctById(id)
 
   //  product not found
   if (!product) {
@@ -104,7 +105,9 @@ exports.deleteProduct = catchAsyncErrHandler(async (req, res, next) => {
   let id = req.params.id;
 
   // finding product
-  const product = await productModel.findById(id);
+  // const product = await productModel.findById(id);
+  const product = await findProduuctById(id)
+
 
   // product not found
   if (!product) {
@@ -116,3 +119,9 @@ exports.deleteProduct = catchAsyncErrHandler(async (req, res, next) => {
     message: `Product deleted successfully`,
   });
 });
+
+
+
+const   findProduuctById= async(id)=>  await productModel.findById(id);
+
+

@@ -47,7 +47,6 @@ userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
   }
-
   // password  modified means changed  then if not
   this.password = await bcrypt.hash(this.password, 10); // 10 indicates how much stronger password should be
 });

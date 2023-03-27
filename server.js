@@ -8,7 +8,6 @@ process.on("uncaughtException", (err) => {
   console.log(`Shutting down the server due to Uncaught Exception`);
   process.exit(1);
 });
-
 // config
 dotevn.config();
 connectingDb(process.env.DB_URL);
