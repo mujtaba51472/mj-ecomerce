@@ -1,4 +1,7 @@
+const ErrorHandler = require("../utilis/errorhandler");
+
 module.exports = (err, req, res, next) => {
+  console.log('errrrrrrrrrrrrrrrrryy' , err )
   err.statusCode = err.statusCode || 500;
   err.message = err.message || "Internal Server Error";
 
@@ -6,13 +9,15 @@ module.exports = (err, req, res, next) => {
     // Duplicate key error
     err.message = "Duplicate key error";
     err.statusCode = 400;
+    // mongo id error 
   } else if (err.name === "CastError") {
     // Invalid ObjectId error
-    err.message = "Invalid ObjectId";
-    err.statusCode = 400;
+    const message = `Resource not found. Invalid: ${err.path}`;
+    err = new ErrorHandler(message, 400);
+
   } else if (err.name === "ValidationError") {
     // Mongoose validation error
-    err.message = err.errors[Object.keys(err.errors)[0]].message;
+    err.message = err.errors[Object.keys(err.errors)].message;
     err.statusCode = 400;
   }
 

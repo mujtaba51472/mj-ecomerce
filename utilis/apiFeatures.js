@@ -7,13 +7,12 @@ class ApiFeatures {
     search() {
         const keyword = this.queryStr.keyword
             ? {
-                name: {
+                name: {   // searching by name in db so used name 
                     $regex: this.queryStr.keyword,
                     $options: "i",
                 },
             }
             : {};
-        console.log('qrrryyyy', keyword)
         this.query = this.query.find({ ...keyword });
 
         return this;
@@ -32,15 +31,13 @@ class ApiFeatures {
 
         // filter for  price and rating
         let queryStr = JSON.stringify(queryCopy);
-        queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);
-        console.log('quuu' , queryStr)
+        queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`); // replace will be apply on gt gte lt lte
         this.query = this.query.find(JSON.parse(queryStr));
         return this;
 
     }
 
     // pagination 
-
     pagination(resultPerPage) {
         const currentPage = Number(this.queryStr.page) || 1;
 
