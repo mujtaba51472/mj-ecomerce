@@ -8,7 +8,6 @@ const catchAsyncErrHandler = require("../middlewares/catchAsyncErrors");
 //Only admin can have access
 exports.createProduct = catchAsyncErrHandler(async (req, res, next) => {
 
-
   req.body.user = req.user.id;   // sassigning id of user to the user in the body which will be created as others fields name des etc
   const product = await productModel.create(req.body);
   if (!product) {
