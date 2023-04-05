@@ -3,6 +3,7 @@ const {
   userRegister,
   loginUser,
   logout,
+  forgotPassword,
 } = require("../controllers/userController");
 const router = express.Router();
 
@@ -23,5 +24,9 @@ router.route("/login").post(loginUser);
 //access private // login user can access
 // url  api/mj/logout
 router.route("/logout").get(logout);
+
+// forget route 
+router.route("/password/forget").post(forgotPassword);
+
 
 module.exports = router;
