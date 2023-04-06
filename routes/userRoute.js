@@ -4,7 +4,9 @@ const {
   loginUser,
   logout,
   forgotPassword,
+  getUserDetails,
 } = require("../controllers/userController");
+const { isAuthenticated } = require("../middlewares/isAuth");
 const router = express.Router();
 
 //  ___register router____
@@ -27,6 +29,13 @@ router.route("/logout").get(logout);
 
 // forget route 
 router.route("/password/forget").post(forgotPassword);
+
+// user detail route____
+// desc
+//access private // login user can access
+// url  api/mj/logout
+router.route("/userDetails").get(isAuthenticated , getUserDetails);
+
 
 
 module.exports = router;

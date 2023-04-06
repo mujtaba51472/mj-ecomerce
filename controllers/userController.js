@@ -126,3 +126,25 @@ exports.forgotPassword = catchAsyncErrHandler(async (req, res, next) => {
 });
 
 
+
+// _______________user route_________________
+
+// get user detail 
+exports.getUserDetails= catchAsyncErrHandler(async(req , res , next)=>{
+
+  // finding user 
+  const user = await UserModel.findById(req.user.id)  // as already login so user is there in req and no need for !user condition 
+  res.status(200).json({
+    status:'success',
+    message:'User details fetched', 
+    user 
+
+
+  })
+
+})
+
+
+
+
+
