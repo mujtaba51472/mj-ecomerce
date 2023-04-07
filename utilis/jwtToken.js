@@ -14,7 +14,7 @@ const sendToken = (user, statusCode, res) => {
     
   // storing token in cookies  
   res.status(statusCode).cookie("token", token, options).json({
-    success: true,
+    status: 'success',
     user,
     token,
   });

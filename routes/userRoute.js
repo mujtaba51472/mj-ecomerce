@@ -5,8 +5,13 @@ const {
   logout,
   forgotPassword,
   getUserDetails,
+  updateUserPassword,
+  updateUserProfile,
+  getAllUsers,
+  getSingleUser,
+  updateUserRole,
 } = require("../controllers/userController");
-const { isAuthenticated } = require("../middlewares/isAuth");
+const { isAuthenticated, authorizeRoles } = require("../middlewares/isAuth");
 const router = express.Router();
 
 //  ___register router____
@@ -35,6 +40,36 @@ router.route("/password/forget").post(forgotPassword);
 //access private // login user can access
 // url  api/mj/logout
 router.route("/userDetails").get(isAuthenticated , getUserDetails);
+
+// user password update  route____
+// desc
+//access private // login user can access
+// url  api/mj/update/password
+router.route("/update/password").put(isAuthenticated , updateUserPassword);
+
+// user profile update  route____
+// desc
+//access private // login user can access
+// url  api/mj/update/profile
+router.route("/update/profile").put(isAuthenticated , updateUserProfile);
+
+// get all users ,  route____
+// desc
+//access private // admin  can access
+// url  api/mj/admin/getAllUsers
+router.route("/admin/getAllUsers").get(isAuthenticated , authorizeRoles("admin") , getAllUsers);
+
+// get single user ,  route____
+// desc
+//access private // admin  can access
+// url  api/mj/admin/admin/getSingleUser
+router.route("/admin/getSingleUser/:id").get(isAuthenticated , authorizeRoles("admin") , getSingleUser);
+
+// get single user ,  route____
+// desc
+//access private // admin  can access
+// url  api/mj/admin/admin/update/role
+router.route("/admin/update/role/:id").put(isAuthenticated , authorizeRoles("admin") ,updateUserRole);
 
 
 
