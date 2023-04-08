@@ -10,6 +10,7 @@ const {
   getAllUsers,
   getSingleUser,
   updateUserRole,
+  deleteUser,
 } = require("../controllers/userController");
 const { isAuthenticated, authorizeRoles } = require("../middlewares/isAuth");
 const router = express.Router();
@@ -32,45 +33,44 @@ router.route("/login").post(loginUser);
 // url  api/mj/logout
 router.route("/logout").get(logout);
 
-// forget route 
+// forget route
 router.route("/password/forget").post(forgotPassword);
 
 // user detail route____
 // desc
 //access private // login user can access
 // url  api/mj/logout
-router.route("/userDetails").get(isAuthenticated , getUserDetails);
+router.route("/userDetails").get(isAuthenticated, getUserDetails);
 
 // user password update  route____
 // desc
 //access private // login user can access
 // url  api/mj/update/password
-router.route("/update/password").put(isAuthenticated , updateUserPassword);
+router.route("/update/password").put(isAuthenticated, updateUserPassword);
 
 // user profile update  route____
 // desc
 //access private // login user can access
 // url  api/mj/update/profile
-router.route("/update/profile").put(isAuthenticated , updateUserProfile);
+router.route("/update/profile").put(isAuthenticated, updateUserProfile);
 
 // get all users ,  route____
 // desc
 //access private // admin  can access
 // url  api/mj/admin/getAllUsers
-router.route("/admin/getAllUsers").get(isAuthenticated , authorizeRoles("admin") , getAllUsers);
+router
+  .route("/admin/getAllUsers")
+  .get(isAuthenticated, authorizeRoles("admin"), getAllUsers);
+  
 
-// get single user ,  route____
+// get  user ,  rout(get single user, update user role , delete user____
 // desc
 //access private // admin  can access
-// url  api/mj/admin/admin/getSingleUser
-router.route("/admin/getSingleUser/:id").get(isAuthenticated , authorizeRoles("admin") , getSingleUser);
-
-// get single user ,  route____
-// desc
-//access private // admin  can access
-// url  api/mj/admin/admin/update/role
-router.route("/admin/update/role/:id").put(isAuthenticated , authorizeRoles("admin") ,updateUserRole);
-
-
+// url  api/mj/admin/admin/user/id
+router
+  .route("/admin/user/:id")
+  .get(isAuthenticated, authorizeRoles("admin"), getSingleUser)
+  .put(isAuthenticated, authorizeRoles("admin"), updateUserRole)
+  .delete(isAuthenticated, authorizeRoles("admin"), deleteUser);
 
 module.exports = router;

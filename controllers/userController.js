@@ -237,4 +237,20 @@ exports.updateUserRole = catchAsyncErrHandler(async (req, res, next) => {
 });
 
 
+// access admin 
+exports.deleteUser = catchAsyncErrHandler(async (req, res, next) => {
+  const user = await UserModel.findById(req.user.id)
+
+  if(!user){
+    return next(new ErrorHandler('User not found' , 404))
+  }
+ 
+  await UserModel.deleteOne({ _id: req.user.id});
+  res.status(200).json({
+    status:'success' , 
+    message:'User deleted'
+  });
+});
+
+
 
